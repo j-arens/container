@@ -1,0 +1,4 @@
+<ruleset name="wp-container">
+    <file>./src</file>
+    <rule ref="PSR12"></rule>
+</ruleset>
