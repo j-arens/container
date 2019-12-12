@@ -9,11 +9,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "O\\": "./src"
+            "O\\": "src/"
         }
     },
     "scripts": {
-        "analyse": "phpstan analyse src",
+        "analyse": "phpstan analyse src/",
         "lint": "phpcs",
         "test:unit": "kahlan --spec=test/unit --reporter=verbose"
     },
