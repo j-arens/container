@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: validate composer
+        run: composer validate --strict
       - name: install deps
         run: composer install
       - name: php lint
