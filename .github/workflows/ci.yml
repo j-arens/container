@@ -24,7 +24,7 @@ jobs:
 
       - name: composer cache dir
         id: composer-cache
-        run: echo "::set-output name-dir::$(composer config cache-files-dir)"
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: cache deps
         uses: actions/cache@v1
