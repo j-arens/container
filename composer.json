@@ -1,6 +1,8 @@
 {
     "name": "o/container",
+    "description": "Dependeny injection container.",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Josh Arens",
