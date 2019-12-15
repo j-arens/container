@@ -5,42 +5,42 @@ on:
     types: [opened, reopened, synchronize, edited]
 
 jobs:
-  setup:
+  php:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3', '7.4']
     steps:
       - name: install php
         uses: shivammathur/setup-php@master
         with:
-          php-version: 7.1
+          php-version: ${{ matrix.php-versions }}
 
-  lint:
-    needs: [setup]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
+      - name: checkout
+        uses: actions/checkout@v1
+
       - name: validate composer
         run: composer validate --strict
+
+      - name: composer cache dir
+        id: composer-cache
+        run: echo "::set-output name-dir::$(composer config cache-files-dir)"
+
+      - name: cache deps
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: install deps
-        run: composer install
-      - name: php lint
+        run: composer install --prefer-dist
+
+      - name: lint
         run: composer lint
 
-  analyse:
-    needs: [setup]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: install deps
-        run: composer install
-      - name: php analyse
+      - name: analyse
         run: composer analyse
 
-  unit-tests:
-    needs: [setup]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: install deps
-        run: composer install
-      - name: php unit tests
+      - name: unit tests
         run: composer test:unit
